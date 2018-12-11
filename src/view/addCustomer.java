@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package view;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,6 +24,9 @@ public class addCustomer extends javax.swing.JFrame {
      */
     public addCustomer() {
         initComponents();
+        
+     
+        
     }
 
     /**
@@ -100,9 +104,6 @@ public class addCustomer extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(258, 258, 258)
-                        .addComponent(customerAdd))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(195, 195, 195)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -111,18 +112,21 @@ public class addCustomer extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jLabel4))
                         .addGap(36, 36, 36)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cust_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cust_id, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                            .addComponent(cust_name)
-                            .addComponent(cust_contact)
-                            .addComponent(cust_company))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(cust_type, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cust_id, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                            .addComponent(cust_name, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cust_contact, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cust_company, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel9))))
-                .addContainerGap(655, Short.MAX_VALUE))
+                            .addComponent(jLabel9)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(256, 256, 256)
+                        .addComponent(customerAdd)))
+                .addContainerGap(648, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,9 +155,9 @@ public class addCustomer extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cust_company, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(76, 76, 76)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addComponent(customerAdd)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addGap(71, 71, 71))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -198,6 +202,8 @@ public class addCustomer extends javax.swing.JFrame {
             String type;
             type=cust_type.getSelectedItem().toString();
             pst.setString(5, type);
+            
+        
             if(cust_id.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter an ID!");
             }else if(cust_name.getText().equals("")){
@@ -206,9 +212,12 @@ public class addCustomer extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please enter Contact Number!");
             }else if(cust_type.getSelectedItem().equals("CORPORATE") && cust_company.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please Enter company name if it is corporate member");
-            }else if(cust_type.getSelectedItem().equals("CONSUMER") && !cust_company.getText().equals("")){
+            }else if(cust_type.getSelectedItem().equals("CONSUMER") && !cust_company.getText().equals("")){              
                 JOptionPane.showMessageDialog(null, "Consumer member cannot have any company");
-            }else    {
+            }
+            
+           
+            else    {
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Customer Added!");
             }

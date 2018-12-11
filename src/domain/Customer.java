@@ -28,7 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Customer.findByCustomerName", query = "SELECT c FROM Customer c WHERE c.customerName = :customerName")
     , @NamedQuery(name = "Customer.findByContactNo", query = "SELECT c FROM Customer c WHERE c.contactNo = :contactNo")
     , @NamedQuery(name = "Customer.findByCustomerCompany", query = "SELECT c FROM Customer c WHERE c.customerCompany = :customerCompany")
-    , @NamedQuery(name = "Customer.findByCustomerType", query = "SELECT c FROM Customer c WHERE c.customerType = :customerType")})
+    , @NamedQuery(name = "Customer.findByCustomerType", query = "SELECT c FROM Customer c WHERE c.customerType = :customerType")
+    , @NamedQuery(name = "Customer.findByCreditLimit", query = "SELECT c FROM Customer c WHERE c.creditLimit = :creditLimit")})
 public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +48,8 @@ public class Customer implements Serializable {
     @Basic(optional = false)
     @Column(name = "CUSTOMER_TYPE")
     private String customerType;
+    @Column(name = "CREDIT_LIMIT")
+    private Integer creditLimit;
 
     public Customer() {
     }
@@ -55,12 +58,13 @@ public class Customer implements Serializable {
         this.customerId = customerId;
     }
 
-    public Customer(String customerId, String customerName, String contactNo,String customerCompany, String customerType) {
+    public Customer(String customerId, String customerName, String contactNo,String customerCompany, String customerType, Integer creditLimit) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.contactNo = contactNo;
-        this.customerCompany= customerCompany;
+        this.customerCompany = customerCompany;
         this.customerType = customerType;
+        this.creditLimit = creditLimit;
     }
 
     public String getCustomerId() {
@@ -101,6 +105,14 @@ public class Customer implements Serializable {
 
     public void setCustomerType(String customerType) {
         this.customerType = customerType;
+    }
+
+    public Integer getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(Integer creditLimit) {
+        this.creditLimit = creditLimit;
     }
 
     @Override

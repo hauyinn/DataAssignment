@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package da;
-import domain.Orderdetail;
+package DA;
+import Domain.Orderdetail;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -22,10 +22,10 @@ import java.util.List;
  * @author Yong
  */
 public class OrderDA {
-    private String host = "jdbc:derby://localhost:1527/order";
+    private String host = "jdbc:derby://localhost:1527/orderdetail";
     private String user = "nbuser";
     private String password = "nbuser";
-    private String tableName = "Orderdetail";
+    private String tableName = "ORDERDETAILS";
     private Connection conn;
     private PreparedStatement stmt;
     
@@ -33,16 +33,16 @@ public class OrderDA {
         createConnection();
     }
      
-      public Orderdetail getRecord(String ORDERID) {
-        String queryStr = "SELECT * FROM " + tableName + " WHERE ORDERID = ?";
+      public Orderdetail getRecord(String DETAILID) {
+        String queryStr = "SELECT * FROM " + tableName + " WHERE DETAILID = ?";
         Orderdetail orderRecord = null;
         try {
             stmt = conn.prepareStatement(queryStr);
-            stmt.setString(1, ORDERID);
+            stmt.setString(1, DETAILID);
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
-                orderRecord = new Orderdetail(rs.getString("ORDERID"), rs.getString("INVOICEID"), rs.getString("CUSTOMERID"), rs.getString("CUSTOMERNAME"), rs.getString("FLOWERTYPE"), rs.getString("ORDERDATE"), rs.getString("DELIVERYDATE"), rs.getInt("QUANTITY"), rs.getDouble("PRICE"), rs.getString("ADDRESS"));
+                orderRecord = new Orderdetail(rs.getString("DETAILID"), rs.getString("ORDERID"), rs.getString("CUSTOMERID"), rs.getString("CUSTOMERNAME"), rs.getString("FLOWERTYPE"), rs.getString("ORDERDATE"), rs.getString("DELIVERYDATE"),rs.getString("PICKUPDATE"), rs.getInt("QUANTITY"), rs.getDouble("PRICE"), rs.getString("ADDRESS"));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -53,18 +53,19 @@ public class OrderDA {
          public void addRecord(Orderdetail addOrder){
            
             try{
-                    String insertStr="INSERT INTO "+tableName+" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String insertStr="INSERT INTO "+tableName+" VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     stmt=conn.prepareStatement(insertStr);
-                    stmt.setString(1, addOrder.getOrderid());
-                    stmt.setString(2, addOrder.getInvoiceid());
+                    stmt.setString(1, addOrder.getDetailid());
+                    stmt.setString(2, addOrder.getOrderid());
                     stmt.setString(3, addOrder.getCustomerid());
                     stmt.setString(4, addOrder.getCustomername());
                     stmt.setString(5, addOrder.getFlowertype());
                     stmt.setString(6, addOrder.getOrderdate());
                     stmt.setString(7, addOrder.getDeliverydate());
-                    stmt.setInt(8, addOrder.getQuantity());
-                    stmt.setDouble(9, addOrder.getPrice());
-                    stmt.setString(10, addOrder.getAddress());
+                    stmt.setString(8, addOrder.getPickupdate());
+                    stmt.setInt(9, addOrder.getQuantity());
+                    stmt.setDouble(10, addOrder.getPrice());
+                    stmt.setString(11, addOrder.getAddress());
                     stmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "New Order Added!");
                                       
@@ -83,7 +84,7 @@ public class OrderDA {
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
-               OrderR = new Orderdetail(rs.getString("ORDERID"), rs.getString("INVOICEID"), rs.getString("CUSTOMERID"), rs.getString("CUSTOMERNAME"), rs.getString("FLOWERTYPE"), rs.getString("ORDERDATE"), rs.getString("DELIVERYDATE"), rs.getInt("QUANTITY"), rs.getDouble("PRICE"), rs.getString("ADDRESS"));
+               OrderR = new Orderdetail(rs.getString("DETAILID"), rs.getString("ORDERID"), rs.getString("CUSTOMERID"), rs.getString("CUSTOMERNAME"), rs.getString("FLOWERTYPE"), rs.getString("ORDERDATE"), rs.getString("DELIVERYDATE"), rs.getString("PICKUPDATE"), rs.getInt("QUANTITY"), rs.getDouble("PRICE"), rs.getString("ADDRESS"));
                orderList.add(OrderR);
             } 
         } catch (SQLException ex) {

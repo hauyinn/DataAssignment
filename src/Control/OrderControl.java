@@ -6,8 +6,8 @@
 package Control;
 
 
-import da.OrderDA;
-import domain.Orderdetail;
+import DA.OrderDA;
+import Domain.Orderdetail;
 import java.util.List;
 
 public class OrderControl {
@@ -40,17 +40,6 @@ public class OrderControl {
 
  
 }
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Hui Chen Xin
- */
 
     
     

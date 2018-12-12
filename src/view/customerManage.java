@@ -40,7 +40,7 @@ public ArrayList<Customer> customerList(){
         Customer customer;
         
         while(rs.next()){
-        customer = new Customer(rs.getString("customer_id"),rs.getString("customer_name"), rs.getString("Contact_no"),rs.getString("customer_company"),rs.getString("customer_type"),rs.getInt("credit_limit"));
+        customer = new Customer(rs.getString("customer_id"),rs.getString("customer_name"), rs.getString("Contact_no"),rs.getString("email"),rs.getString("customer_company"),rs.getString("customer_type"),rs.getInt("credit_limit"));
         customerList.add(customer);
         }
     }catch(Exception e){
@@ -52,13 +52,14 @@ public ArrayList<Customer> customerList(){
  public void show_customer(){
     ArrayList<Customer> list = customerList();
     DefaultTableModel model = (DefaultTableModel)cust_table.getModel();
-    Object[] row = new Object[5];
+    Object[] row = new Object[6];
     for(int i =0 ; i<list.size(); i++){
     row[0]=list.get(i).getCustomerId();
     row[1]=list.get(i).getCustomerName();
     row[2]=list.get(i).getContactNo();
-    row[3]=list.get(i).getCustomerCompany();
-    row[4]=list.get(i).getCustomerType();
+    row[3]=list.get(i).getEmail();
+    row[4]=list.get(i).getCustomerCompany();
+    row[5]=list.get(i).getCustomerType();
     model.addRow(row);
     }
     }
@@ -87,6 +88,8 @@ public ArrayList<Customer> customerList(){
         jLabel5 = new javax.swing.JLabel();
         cust_name = new javax.swing.JTextField();
         update = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        email = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 153));
@@ -96,7 +99,7 @@ public ArrayList<Customer> customerList(){
 
             },
             new String [] {
-                "ID", "Name", "Contact No ", "Company", "Type"
+                "ID", "Name", "Contact No ", "Email", "Company", "Type"
             }
         ));
         cust_table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -143,6 +146,8 @@ public ArrayList<Customer> customerList(){
             }
         });
 
+        jLabel1.setText("Email");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,27 +155,39 @@ public ArrayList<Customer> customerList(){
             .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
                 .addGap(201, 201, 201)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(update)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel4)
                             .addComponent(jLabel2))
-                        .addGap(36, 36, 36)
+                        .addGap(113, 113, 113)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cust_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cust_id)
+                            .addComponent(cust_id, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                             .addComponent(cust_name)
-                            .addComponent(cust_contact)
-                            .addComponent(cust_company, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+                            .addComponent(cust_contact))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel9))))
+                            .addComponent(jLabel9)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(264, 264, 264)
+                        .addComponent(update))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1))
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(email)
+                                .addGap(91, 91, 91))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cust_company, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(225, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -197,13 +214,17 @@ public ArrayList<Customer> customerList(){
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(cust_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cust_company, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
                 .addComponent(update)
-                .addGap(76, 76, 76))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,8 +244,9 @@ public ArrayList<Customer> customerList(){
         cust_id.setText(model.getValueAt(i, 0).toString());
         cust_name.setText(model.getValueAt(i, 1).toString());
         cust_contact.setText(model.getValueAt(i, 2).toString());
-        cust_company.setText(model.getValueAt(i, 3).toString());
-        String customer_type1 = model.getValueAt(i,4).toString();
+        email.setText(model.getValueAt(i, 3).toString());
+        cust_company.setText(model.getValueAt(i, 4).toString());
+        String customer_type1 = model.getValueAt(i,5).toString();
         switch(customer_type1){
             case "CONSUMER":
             cust_type.setSelectedIndex(0);
@@ -234,6 +256,8 @@ public ArrayList<Customer> customerList(){
             break;
         
          }
+        cust_id.setEditable(false);
+        cust_type.setEditable(false);
     }//GEN-LAST:event_cust_tableMouseClicked
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
@@ -242,29 +266,32 @@ public ArrayList<Customer> customerList(){
       Connection conn = DriverManager.getConnection(host,user, password);
       int row = cust_table.getSelectedRow();
       String value = (cust_table.getModel().getValueAt(row,0).toString());
-      String query = "UPDATE customer SET customer_id=?, customer_name=?, contact_no=?, customer_company=?, customer_type=? where customer_id=?";
+      String query = "UPDATE customer SET customer_id=?, customer_name=?, contact_no=?,email=?, customer_company=?, customer_type=? where customer_id=?";
       PreparedStatement pst = conn.prepareStatement(query);
       pst.setString(1, cust_id.getText());
        pst.setString(2, cust_name.getText());
         pst.setString(3, cust_contact.getText());
-         pst.setString(4, cust_company.getText());
+        pst.setString(4, email.getText());
+         pst.setString(5, cust_company.getText());
        String type;
             type=cust_type.getSelectedItem().toString();
-            pst.setString(5, type);
+            pst.setString(6, type);
             
-          pst.setString(6, cust_id.getText());
+          pst.setString(7, cust_id.getText());
           
-               if(cust_id.getText().equals("")){
+        if(cust_id.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter an ID!");
             }else if(cust_name.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter Name!");
             }else if(cust_contact.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter Contact Number!");
+            }else if(email.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "Please Enter Email");
             }else if(cust_type.getSelectedItem().equals("CORPORATE") && cust_company.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please Enter company name if it is corporate member");
-            }else if(cust_type.getSelectedItem().equals("CONSUMER") && !cust_company.getText().equals("")){
+            }else if(cust_type.getSelectedItem().equals("CONSUMER") && !cust_company.getText().equals("")){              
                 JOptionPane.showMessageDialog(null, "Consumer member cannot have any company");
-            }else    {
+            }   {
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Customer Updated!");
                  DefaultTableModel model = (DefaultTableModel)cust_table.getModel();
@@ -321,6 +348,8 @@ public ArrayList<Customer> customerList(){
     private javax.swing.JTextField cust_name;
     private javax.swing.JTable cust_table;
     private javax.swing.JComboBox<String> cust_type;
+    private javax.swing.JTextField email;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -43,7 +43,7 @@ public ArrayList<Customer> customerList(){
         Customer customer;
         
         while(rs.next()){
-        customer = new Customer(rs.getString("customer_id"),rs.getString("customer_name"), rs.getString("Contact_no"),rs.getString("customer_company"),rs.getString("customer_type"),rs.getInt("credit_limit"));
+        customer = new Customer(rs.getString("customer_id"),rs.getString("customer_name"), rs.getString("Contact_no"),rs.getString("email"),rs.getString("customer_company"),rs.getString("customer_type"),rs.getInt("credit_limit"));
         customerList.add(customer);
         }
     }catch(Exception e){
@@ -62,9 +62,10 @@ public ArrayList<Customer> customerList(){
     row[0]=list.get(i).getCustomerId();
     row[1]=list.get(i).getCustomerName();
     row[2]=list.get(i).getContactNo();
-    row[3]=list.get(i).getCustomerCompany();
-    row[4]=list.get(i).getCustomerType();
-    row[5]=list.get(i).getCreditLimit();
+    row[3]=list.get(i).getEmail();
+    row[4]=list.get(i).getCustomerCompany();
+    row[5]=list.get(i).getCustomerType();
+    row[6]=list.get(i).getCreditLimit();
     model.addRow(row);
     }
     }
@@ -80,9 +81,7 @@ public ArrayList<Customer> customerList(){
     private void initComponents() {
 
         jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         cust_name = new javax.swing.JTextField();
         update = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -94,17 +93,14 @@ public ArrayList<Customer> customerList(){
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         credit_limit = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        email = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel3.setText("Contact No");
 
-        jLabel8.setText("Example");
-
-        jLabel4.setText("Company name (if corparate)");
-
-        jLabel9.setText("Allen Yong");
+        jLabel4.setText("Company name");
 
         cust_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,7 +122,7 @@ public ArrayList<Customer> customerList(){
 
             },
             new String [] {
-                "ID", "Name", "Contact No ", "Company", "Type", "Credit Limit"
+                "ID", "Name", "Contact No ", "Email", "Company", "Type", "Credit Limit"
             }
         ));
         cust_table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -152,7 +148,13 @@ public ArrayList<Customer> customerList(){
             }
         });
 
-        jLabel7.setText("016-2311231");
+        jLabel5.setText("Email");
+
+        email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,55 +170,52 @@ public ArrayList<Customer> customerList(){
                             .addComponent(jLabel6)
                             .addComponent(jLabel4)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cust_id)
                             .addComponent(cust_name)
                             .addComponent(cust_contact)
                             .addComponent(cust_company, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                            .addComponent(credit_limit))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9)))
+                            .addComponent(credit_limit)
+                            .addComponent(email)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(464, 464, 464)
+                        .addGap(460, 460, 460)
                         .addComponent(update)))
-                .addContainerGap(361, Short.MAX_VALUE))
+                .addContainerGap(500, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel8)
-                .addGap(21, 21, 21)
+                .addGap(68, 68, 68)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cust_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cust_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(cust_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(cust_contact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGap(58, 58, 58)
+                    .addComponent(cust_contact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(cust_company, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(credit_limit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addComponent(update)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
 
         pack();
@@ -234,16 +233,17 @@ public ArrayList<Customer> customerList(){
             Connection conn = DriverManager.getConnection(host,user, password);
             int row = cust_table.getSelectedRow();
             String value = (cust_table.getModel().getValueAt(row,0).toString());
-            String query = "UPDATE customer SET customer_id=?, customer_name=?, contact_no=?, customer_company=?, credit_limit=? where customer_id=?";
+            String query = "UPDATE customer SET customer_id=?, customer_name=?, contact_no=?, email=?, customer_company=?, credit_limit=? where customer_id=?";
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, cust_id.getText());
             pst.setString(2, cust_name.getText());
             pst.setString(3, cust_contact.getText());
-            pst.setString(4, cust_company.getText());
+            pst.setString(4, email.getText());
+            pst.setString(5, cust_company.getText());
             int a=Integer.parseInt(credit_limit.getText());
-            pst.setInt(5, a);
+            pst.setInt(6, a);
          
-            pst.setString(6, cust_id.getText());
+            pst.setString(7, cust_id.getText());
 
             if(cust_id.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter an ID!");
@@ -273,9 +273,11 @@ public ArrayList<Customer> customerList(){
         cust_id.setText(model.getValueAt(i, 0).toString());
         cust_name.setText(model.getValueAt(i, 1).toString());
         cust_contact.setText(model.getValueAt(i, 2).toString());
-        cust_company.setText(model.getValueAt(i, 3).toString());
-        credit_limit.setText(model.getValueAt(i, 5).toString());
+        email.setText(model.getValueAt(i, 3).toString());
+        cust_company.setText(model.getValueAt(i, 4).toString());
+        credit_limit.setText(model.getValueAt(i, 6).toString());
         cust_id.setEditable(false);
+        email.setEditable(false);
         cust_name.setEditable(false);
         cust_contact.setEditable(false);
         cust_company.setEditable(false);
@@ -290,6 +292,10 @@ public ArrayList<Customer> customerList(){
     private void credit_limitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_credit_limitActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_credit_limitActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
 
     /**
      * @param args the command line arguments
@@ -333,14 +339,13 @@ public ArrayList<Customer> customerList(){
     private javax.swing.JTextField cust_id;
     private javax.swing.JTextField cust_name;
     private javax.swing.JTable cust_table;
+    private javax.swing.JTextField email;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton update;
     // End of variables declaration//GEN-END:variables

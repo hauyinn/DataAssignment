@@ -30,6 +30,27 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Customer.findByTime", query = "SELECT c FROM Customer c WHERE c.time = :time")})
 public class Customer implements Serializable {
 
+    @Id
+    @Basic(optional = false)
+    @Column(name = "CUSTOMER_ID")
+    private String customerId;
+    @Basic(optional = false)
+    @Column(name = "CUSTOMER_NAME")
+    private String customerName;
+    @Basic(optional = false)
+    @Column(name = "CONTACT_NO")
+    private String contactNo;
+    @Basic(optional = false)
+    @Column(name = "EMAIL")
+    private String email;
+    @Column(name = "CUSTOMER_COMPANY")
+    private String customerCompany;
+    @Basic(optional = false)
+    @Column(name = "CUSTOMER_TYPE")
+    private String customerType;
+    @Column(name = "CREDIT_LIMIT")
+    private Integer creditLimit;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -113,6 +134,99 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return "control.Customer[ invoiceid=" + invoiceid + " ]";
+    }
+
+    public Customer(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public Customer(String customerId, String customerName, String contactNo, String email, String customerType) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.customerType = customerType;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getContactNo() {
+        return contactNo;
+    }
+
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCustomerCompany() {
+        return customerCompany;
+    }
+
+    public void setCustomerCompany(String customerCompany) {
+        this.customerCompany = customerCompany;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public Integer getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(Integer creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (customerId != null ? customerId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Customer)) {
+            return false;
+        }
+        Customer other = (Customer) object;
+        if ((this.customerId == null && other.customerId != null) || (this.customerId != null && !this.customerId.equals(other.customerId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "control.Customer[ customerId=" + customerId + " ]";
     }
     
 }

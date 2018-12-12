@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package domain;
+package Domain;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -24,13 +24,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o")
+    , @NamedQuery(name = "Orderdetail.findByDetailid", query = "SELECT o FROM Orderdetail o WHERE o.detailid = :detailid")
     , @NamedQuery(name = "Orderdetail.findByOrderid", query = "SELECT o FROM Orderdetail o WHERE o.orderid = :orderid")
-    , @NamedQuery(name = "Orderdetail.findByInvoiceid", query = "SELECT o FROM Orderdetail o WHERE o.invoiceid = :invoiceid")
     , @NamedQuery(name = "Orderdetail.findByCustomerid", query = "SELECT o FROM Orderdetail o WHERE o.customerid = :customerid")
     , @NamedQuery(name = "Orderdetail.findByCustomername", query = "SELECT o FROM Orderdetail o WHERE o.customername = :customername")
     , @NamedQuery(name = "Orderdetail.findByFlowertype", query = "SELECT o FROM Orderdetail o WHERE o.flowertype = :flowertype")
     , @NamedQuery(name = "Orderdetail.findByOrderdate", query = "SELECT o FROM Orderdetail o WHERE o.orderdate = :orderdate")
     , @NamedQuery(name = "Orderdetail.findByDeliverydate", query = "SELECT o FROM Orderdetail o WHERE o.deliverydate = :deliverydate")
+    , @NamedQuery(name = "Orderdetail.findByPickupdate", query = "SELECT o FROM Orderdetail o WHERE o.pickupdate = :pickupdate")
     , @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity")
     , @NamedQuery(name = "Orderdetail.findByPrice", query = "SELECT o FROM Orderdetail o WHERE o.price = :price")
     , @NamedQuery(name = "Orderdetail.findByAddress", query = "SELECT o FROM Orderdetail o WHERE o.address = :address")})
@@ -39,11 +40,11 @@ public class Orderdetail implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @Column(name = "DETAILID")
+    private String detailid;
+    @Basic(optional = false)
     @Column(name = "ORDERID")
     private String orderid;
-    @Basic(optional = false)
-    @Column(name = "INVOICEID")
-    private String invoiceid;
     @Basic(optional = false)
     @Column(name = "CUSTOMERID")
     private String customerid;
@@ -56,9 +57,10 @@ public class Orderdetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "ORDERDATE")
     private String orderdate;
-    @Basic(optional = false)
     @Column(name = "DELIVERYDATE")
     private String deliverydate;
+    @Column(name = "PICKUPDATE")
+    private String pickupdate;
     @Basic(optional = false)
     @Column(name = "QUANTITY")
     private int quantity;
@@ -72,21 +74,31 @@ public class Orderdetail implements Serializable {
     public Orderdetail() {
     }
 
-    public Orderdetail(String orderid) {
-        this.orderid = orderid;
+    public Orderdetail(String detailid) {
+        this.detailid = detailid;
     }
 
-    public Orderdetail(String orderid, String invoiceid, String customerid, String customername, String flowertype, String orderdate, String deliverydate, int quantity, double price, String address) {
+    public Orderdetail(String detailid, String orderid, String customerid, String customername, String flowertype, String orderdate,String deliverydate,String pickupdate, int quantity, double price, String address) {
+        this.detailid = detailid;
         this.orderid = orderid;
-        this.invoiceid = invoiceid;
         this.customerid = customerid;
         this.customername = customername;
         this.flowertype = flowertype;
         this.orderdate = orderdate;
         this.deliverydate = deliverydate;
+        this.pickupdate = pickupdate;
         this.quantity = quantity;
         this.price = price;
         this.address = address;
+    }
+
+
+    public String getDetailid() {
+        return detailid;
+    }
+
+    public void setDetailid(String detailid) {
+        this.detailid = detailid;
     }
 
     public String getOrderid() {
@@ -95,14 +107,6 @@ public class Orderdetail implements Serializable {
 
     public void setOrderid(String orderid) {
         this.orderid = orderid;
-    }
-
-    public String getInvoiceid() {
-        return invoiceid;
-    }
-
-    public void setInvoiceid(String invoiceid) {
-        this.invoiceid = invoiceid;
     }
 
     public String getCustomerid() {
@@ -145,6 +149,14 @@ public class Orderdetail implements Serializable {
         this.deliverydate = deliverydate;
     }
 
+    public String getPickupdate() {
+        return pickupdate;
+    }
+
+    public void setPickupdate(String pickupdate) {
+        this.pickupdate = pickupdate;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -172,7 +184,7 @@ public class Orderdetail implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (orderid != null ? orderid.hashCode() : 0);
+        hash += (detailid != null ? detailid.hashCode() : 0);
         return hash;
     }
 
@@ -183,7 +195,7 @@ public class Orderdetail implements Serializable {
             return false;
         }
         Orderdetail other = (Orderdetail) object;
-        if ((this.orderid == null && other.orderid != null) || (this.orderid != null && !this.orderid.equals(other.orderid))) {
+        if ((this.detailid == null && other.detailid != null) || (this.detailid != null && !this.detailid.equals(other.detailid))) {
             return false;
         }
         return true;
@@ -191,7 +203,7 @@ public class Orderdetail implements Serializable {
 
     @Override
     public String toString() {
-        return "Domain.Orderdetail[ orderid=" + orderid + " ]";
+        return "Domain.Orderdetail[ detailid=" + detailid + " ]";
     }
     
 }

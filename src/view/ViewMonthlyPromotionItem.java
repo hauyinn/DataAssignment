@@ -9,6 +9,7 @@ import da.PromotionDA;
 import da.PromotionProductDA;
 import domain.Promotion;
 import domain.Promotionproduct;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +26,29 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
      */
     public ViewMonthlyPromotionItem() {
         initComponents();
+        String yearString = new SimpleDateFormat("yyyy").format(jSpinner.getValue());
+        int year = Integer.parseInt(yearString);
+        DefaultTableModel model2 = (DefaultTableModel) jtable.getModel();
+        model2.setRowCount(0);
+        String month  =jcbM.getSelectedItem().toString();
+        List<Promotionproduct> ppList=new ArrayList<Promotionproduct>();
+        Promotion promotion =new Promotion();
+        PromotionDA pDA = new PromotionDA();
+        PromotionProductDA ppDA = new PromotionProductDA();
+        promotion=pDA.getAllSelectedRecordViaMonth(month,year);
+        if(promotion!=null){
+        ppList=ppDA.getAllSelectedRecord(promotion.getPromotionname());
+        jtfPName.setText(promotion.getPromotionname());
         
+        Object ppData[] =new Object[2];
+         for(Promotionproduct e: ppList){
+                ppData[0]=e.getProduct().getProductname();
+                ppData[1]=e.getDiscountprice();
+                model2.addRow(ppData);           
+        }
+        }else{
+            jtfPName.setText("No promotion event");
+        }
     }
 
     /**
@@ -45,6 +68,9 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
         jcbM = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jSpinner = new javax.swing.JSpinner();
+        jtfPName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +116,18 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jtable);
 
+        jLabel1.setText("Year:");
+
+        jSpinner.setModel(new javax.swing.SpinnerDateModel());
+        jSpinner.setEditor(new javax.swing.JSpinner.DateEditor(jSpinner, "yyyy"));
+        jSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinnerStateChanged(evt);
+            }
+        });
+
+        jtfPName.setText("jLabel3");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -103,11 +141,18 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
                         .addGap(64, 64, 64)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jcbM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jcbM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(115, 115, 115)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(276, Short.MAX_VALUE))
+                        .addGap(135, 135, 135)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addComponent(jtfPName)))
+                .addContainerGap(277, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,10 +162,14 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jcbM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                    .addComponent(jcbM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addComponent(jtfPName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,6 +194,8 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
 
     private void jcbMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMActionPerformed
         // TODO add your handling code here:
+                String yearString = new SimpleDateFormat("yyyy").format(jSpinner.getValue());
+        int year = Integer.parseInt(yearString);
         DefaultTableModel model2 = (DefaultTableModel) jtable.getModel();
         model2.setRowCount(0);
         String month  =jcbM.getSelectedItem().toString();
@@ -152,20 +203,48 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
         Promotion promotion =new Promotion();
         PromotionDA pDA = new PromotionDA();
         PromotionProductDA ppDA = new PromotionProductDA();
-        promotion=pDA.getAllSelectedRecordViaMonth(month);
+        promotion=pDA.getAllSelectedRecordViaMonth(month,year);
         if(promotion!=null){
         ppList=ppDA.getAllSelectedRecord(promotion.getPromotionname());
-        
+        jtfPName.setText(promotion.getPromotionname());
         
         Object ppData[] =new Object[2];
          for(Promotionproduct e: ppList){
-
-                ppData[0]=e.getProductname();
+                ppData[0]=e.getProduct().getProductname();
                 ppData[1]=e.getDiscountprice();
                 model2.addRow(ppData);           
         }
+        }else{
+            jtfPName.setText("No promotion event");
         }
     }//GEN-LAST:event_jcbMActionPerformed
+
+    private void jSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinnerStateChanged
+        // TODO add your handling code here:
+                        String yearString = new SimpleDateFormat("yyyy").format(jSpinner.getValue());
+        int year = Integer.parseInt(yearString);
+        DefaultTableModel model2 = (DefaultTableModel) jtable.getModel();
+        model2.setRowCount(0);
+        String month  =jcbM.getSelectedItem().toString();
+        List<Promotionproduct> ppList=new ArrayList<Promotionproduct>();
+        Promotion promotion =new Promotion();
+        PromotionDA pDA = new PromotionDA();
+        PromotionProductDA ppDA = new PromotionProductDA();
+        promotion=pDA.getAllSelectedRecordViaMonth(month,year);
+        if(promotion!=null){
+        ppList=ppDA.getAllSelectedRecord(promotion.getPromotionname());
+        jtfPName.setText(promotion.getPromotionname());
+        
+        Object ppData[] =new Object[2];
+         for(Promotionproduct e: ppList){
+                ppData[0]=e.getProduct().getProductname();
+                ppData[1]=e.getDiscountprice();
+                model2.addRow(ppData);           
+        }
+        }else{
+            jtfPName.setText("No promotion event");
+        }
+    }//GEN-LAST:event_jSpinnerStateChanged
 
     /**
      * @param args the command line arguments
@@ -204,13 +283,16 @@ public class ViewMonthlyPromotionItem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner;
     private javax.swing.JComboBox<String> jcbM;
     private javax.swing.JTable jtable;
+    private javax.swing.JLabel jtfPName;
     // End of variables declaration//GEN-END:variables
 }

@@ -33,12 +33,13 @@ public class PromotionDA {
      public void addRecord(Promotion p){
            
             try{
-                    String insertStr="INSERT INTO "+tableName+" VALUES(?, ?, ?, ? )";
+                    String insertStr="INSERT INTO "+tableName+" VALUES(?, ?, ?, ?, ? )";
                     stmt=conn.prepareStatement(insertStr);
                     stmt.setString(1, p.getPromotionname());
                     stmt.setString(2, p.getPromotionmonth());
                     stmt.setString(3, p.getPromotiondetail());
                     stmt.setString(4,p.getPromotiontc());
+                    stmt.setInt(5, p.getPyear());
                     stmt.executeUpdate();
                     
                 }catch(SQLException ex){
@@ -55,7 +56,7 @@ public class PromotionDA {
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()) {                
-                pRecord = new Promotion(rs.getString("PROMOTIONNAME"), rs.getString("PROMOTIONMONTH"),rs.getString("PROMOTIONDETAIL"), rs.getString("PROMOTIONTC") );
+                pRecord = new Promotion(rs.getString("PROMOTIONNAME"), rs.getString("PROMOTIONMONTH"),rs.getString("PROMOTIONDETAIL"), rs.getString("PROMOTIONTC"),rs.getInt("PYEAR") );
                 pList.add(pRecord);
             }
         } catch (SQLException ex) {
@@ -64,16 +65,34 @@ public class PromotionDA {
         return pList;
     }
          
-          public Promotion getAllSelectedRecordViaMonth(String month) {
-            String queryStr = "SELECT * FROM " + tableName+" WHERE PROMOTIONMONTH = ? ";
+        public Promotion getAllSelectedRecordViaPromotionName(String promotionName) {
+            String queryStr = "SELECT * FROM " + tableName+" WHERE PROMOTIONNAME = ? ";
+            Promotion pRecord = null;
+        try {
+            stmt = conn.prepareStatement(queryStr);
+            stmt.setString(1, promotionName);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()) {                
+                 pRecord = new Promotion(rs.getString("PROMOTIONNAME"), rs.getString("PROMOTIONMONTH"),rs.getString("PROMOTIONDETAIL"), rs.getString("PROMOTIONTC"),rs.getInt("PYEAR") );
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "getAllSeletedRecord ERROR",JOptionPane.ERROR_MESSAGE);
+        }
+        return pRecord;
+    }
+         
+          public Promotion getAllSelectedRecordViaMonth(String month,int pyear) {
+            String queryStr = "SELECT * FROM " + tableName+" WHERE PROMOTIONMONTH = ? AND PYEAR = ? ";
             Promotion pRecord = null;
         try {
             stmt = conn.prepareStatement(queryStr);
             stmt.setString(1, month);
+            stmt.setInt(2, pyear);
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()) {                
-                pRecord = new Promotion(rs.getString("PROMOTIONNAME"), rs.getString("PROMOTIONMONTH"),rs.getString("PROMOTIONDETAIL"), rs.getString("PROMOTIONTC") );
+                 pRecord = new Promotion(rs.getString("PROMOTIONNAME"), rs.getString("PROMOTIONMONTH"),rs.getString("PROMOTIONDETAIL"), rs.getString("PROMOTIONTC"),rs.getInt("PYEAR") );
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "getAllSeletedRecord ERROR",JOptionPane.ERROR_MESSAGE);

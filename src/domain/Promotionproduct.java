@@ -42,7 +42,10 @@ public class Promotionproduct implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "DISCOUNTPRICE")
     private Double discountprice;
-
+    
+    private Product product;
+    private Promotion promotion;
+    
     public Promotionproduct() {
     }
 
@@ -56,6 +59,30 @@ public class Promotionproduct implements Serializable {
         this.promotionname=promotionname;
         this.discountprice=discountprice;
     }
+        
+                public Promotionproduct(String promotiomitemid,Product productname,Promotion promotionname,double discountprice) {
+        this.promotiomitemid = promotiomitemid;
+        this.product= productname;
+        this.promotion=promotionname;
+        this.discountprice=discountprice;
+    }
+                
+    public Promotion getPromotiom() {
+        return promotion;
+    }
+
+    public void setPromotiom(Promotion promotiom) {
+        this.promotion = promotiom;
+    }
+    
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
 
     public String getPromotiomitemid() {
         return promotiomitemid;

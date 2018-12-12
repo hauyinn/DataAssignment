@@ -68,7 +68,7 @@ private String host = "jdbc:derby://localhost:1527/FlowerDB";
         for(Product prod : pList1  ){
              jcbNPI.addItem(prod.getProductname());
             for(Promotionproduct pProd : ppList  ){
-                if(pProd.getProductname().equals(prod.getProductname())) {        
+                if(pProd.getProduct().getProductname().equals(prod.getProductname())) {        
                 jcbNPI.removeItem(prod.getProductname());
                 break;
                 }
@@ -85,7 +85,7 @@ private String host = "jdbc:derby://localhost:1527/FlowerDB";
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        FioreFlowershopSystemPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("FioreFlowershopSystemPU").createEntityManager();
+        FioreFlowershopSystemPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("Customer2PU").createEntityManager();
         promotionQuery = java.beans.Beans.isDesignTime() ? null : FioreFlowershopSystemPUEntityManager.createQuery("SELECT p FROM Promotion p");
         promotionList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : promotionQuery.getResultList();
         promotionQuery1 = java.beans.Beans.isDesignTime() ? null : FioreFlowershopSystemPUEntityManager.createQuery("SELECT p FROM Promotion p");
@@ -275,9 +275,10 @@ private String host = "jdbc:derby://localhost:1527/FlowerDB";
 
     private void jcbPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbPNActionPerformed
         // TODO add your handling code here:   
+        if(jcbNPI.getItemCount()!=0){
         jcbNPI.removeAllItems();
         addItemToJCBNPI();
-        
+        }
     }//GEN-LAST:event_jcbPNActionPerformed
 
     private void jcbNPIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbNPIActionPerformed

@@ -26,6 +26,8 @@ public class PromotionProductDA {
     private String tableName = "Promotionproduct";
     private Connection conn;
     private PreparedStatement stmt;
+    private PromotionDA pnDA = new PromotionDA();
+    private ProductDA ptDA=new ProductDA();
     
     public PromotionProductDA(){
     createConnection();
@@ -58,8 +60,10 @@ public class PromotionProductDA {
             stmt.setString(1, promotionName);
             ResultSet rs = stmt.executeQuery();
             
-            while(rs.next()) {                
-                pRecord = new Promotionproduct(rs.getString("PROMOTIOMITEMID"), rs.getString("PRODUCTNAME"),rs.getString("PROMOTIONNAME"), rs.getDouble("DISCOUNTPRICE") );
+            while(rs.next()) {              
+                Product pt = ptDA.getAllSelectedRecordViaProductName(rs.getString("PRODUCTNAME"));
+                Promotion pn = pnDA.getAllSelectedRecordViaPromotionName(rs.getString("PROMOTIONNAME"));
+                pRecord = new Promotionproduct(rs.getString("PROMOTIONITEMID"), pt,pn, rs.getDouble("DISCOUNTPRICE") );
                 pList.add(pRecord);
             }
         } catch (SQLException ex) {
@@ -68,24 +72,6 @@ public class PromotionProductDA {
         return pList;
     }
          
-                  public List<Promotionproduct> getAllSelectedRecordViaMonth(String month) {
-            String queryStr = "SELECT * FROM " + tableName+" WHERE PROMOTIONMONTH = ? ";
-            List<Promotionproduct> pList=new ArrayList<Promotionproduct>();
-            Promotionproduct pRecord = null;
-        try {
-            stmt = conn.prepareStatement(queryStr);
-            stmt.setString(1, month);
-            ResultSet rs = stmt.executeQuery();
-            
-            while(rs.next()) {                
-                pRecord = new Promotionproduct(rs.getString("PROMOTIOMITEMID"), rs.getString("PRODUCTNAME"),rs.getString("PROMOTIONNAME"), rs.getDouble("DISCOUNTPRICE") );
-                pList.add(pRecord);
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "getAllSeletedRecord ERROR",JOptionPane.ERROR_MESSAGE);
-        }
-        return pList;
-    }
          
             public double getDiscount(String productName,String promotionName) {
             String queryStr = "SELECT * FROM " + tableName+" WHERE productName = "+productName+" AND promotionName = "+promotionName;
@@ -96,7 +82,9 @@ public class PromotionProductDA {
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()) {                
-                pRecord = new Promotionproduct(rs.getString("PROMOTIOMITEMID"), rs.getString("PRODUCTNAME"),rs.getString("PROMOTIONNAME"), rs.getDouble("DISCOUNTPRICE") );
+                Product pt = ptDA.getAllSelectedRecordViaProductName(rs.getString("PRODUCTNAME"));
+                Promotion pn = pnDA.getAllSelectedRecordViaPromotionName(rs.getString("PROMOTIONNAME"));
+                pRecord = new Promotionproduct(rs.getString("PROMOTIONITEMID"), pt,pn, rs.getDouble("DISCOUNTPRICE") );
                 disP=pRecord.getDiscountprice();
             }
            
@@ -116,7 +104,9 @@ public class PromotionProductDA {
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()) {                
-                pRecord = new Promotionproduct(rs.getString("PROMOTIOMITEMID"), rs.getString("PRODUCTNAME"),rs.getString("PROMOTIONNAME"), rs.getDouble("DISCOUNTPRICE") );
+                                Product pt = ptDA.getAllSelectedRecordViaProductName(rs.getString("PRODUCTNAME"));
+                Promotion pn = pnDA.getAllSelectedRecordViaPromotionName(rs.getString("PROMOTIONNAME"));
+                pRecord = new Promotionproduct(rs.getString("PROMOTIONITEMID"), pt,pn, rs.getDouble("DISCOUNTPRICE") );
                 pList.add(pRecord);
             }
         } catch (SQLException ex) {
